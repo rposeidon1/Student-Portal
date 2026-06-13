@@ -1,0 +1,24 @@
+{% extends "core/base.html" %}
+
+{% block title %}Courses{% endblock %}
+
+{% block content %}
+<h2>Courses</h2>
+
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Duration</th>
+    </tr>
+    {% for course in courses %}
+    <tr>
+        <td>{{ course.course_title }}</td>
+        <td>{{ course.description }}</td>
+        <td>{{ course.duration }}
+    </tr>
+    {% empty %}
+    <tr><td> colspan="3">No courses yet.</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "core/base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2>Dashboard</h2>
+<p>Total Students: {{ total_students }}</P>
+<p>Total Courses: {{ total_courses }}</p>
+
+<h3>Recently registered students</h3>
+<ul>
+{% for student in recent_students %}
+    <li>{{ student.name }} - {{ student.course }}</li>
+{% empty %}
+    <li>No students yet.</li>
+{% endfor %}
+</ul>
+{% endblock %}

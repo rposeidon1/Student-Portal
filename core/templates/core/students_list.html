@@ -1,0 +1,25 @@
+{% extends "core/base.html" %}
+
+{% block title %}Students{% endblock %}
+
+{% block content %}
+<h2>Students</h2>
+
+<input type="text" name="q" placeholder="Search students..."
+    hx-get="{% url "student_search" %}"
+    hx-trigger="keyup changed delay:300ms"
+    hx-target="#student-rows"
+    hx-swap="innerHTML">
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Course</th>
+    </tr>
+    <tbody id="student-rows">
+        {% include "core/partials/student_results.html" %}
+    </tbody>
+</table>
+{% endblock %}

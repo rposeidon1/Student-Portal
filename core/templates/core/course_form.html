@@ -1,0 +1,29 @@
+{% extends "core/base.html" %}
+
+{% block title %}Course Form{% endblock %}
+
+{% block content %}
+<h2>Course Form</h2>
+<div>
+    <form method="POST">
+        {% csrf_token %}
+
+        <div>
+            {{ form.course_title.label_tag }}
+            {{ form.course_title }}
+        </div>
+
+        <div>
+            {{ form.description.label_tag }}
+            {{ form.description }}
+        </div>
+
+        <div>
+            {{ form.duration.label_tag }}
+            {{ form.duration }}
+        </div>
+
+        <button type="submit">Add Course</button>
+    </form>
+</div>
+{% endblock %}
