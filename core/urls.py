@@ -13,4 +13,6 @@ urlpatterns = [
     path("courses/<int:course_id>/edit/", views.course_edit, name="course_edit"),
     path("courses/<int:course_id>/delete/", views.course_delete, name="course_delete"),
     path("students/search/", views.student_search, name="student_search"),
+    path("students/export", views.export_students_csv, name="export_students_csv"),
+    path("courses/export", views.export_courses_csv, name="export_courses_csv"),
 ]

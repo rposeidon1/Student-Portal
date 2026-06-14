@@ -1,6 +1,9 @@
+import csv
+
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import CourseForm, StudentForm
@@ -122,3 +125,31 @@ def student_search(request):
         | Q(course__course_title__icontains=query)
     )
     return render(request, "core/partials/student_results.html", {"students": students})
+
+
+@login_required
+def export_students_csv(request):
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = 'attachment; filename="students.csv" '
+
+    writer = csv.writer(response)
+    writer.writerow(["Name", "Email", "Phone", "Course"])
+
+    for student in Student.objects.all():
+        writer.writerow([student.name, student.email, student.phone, student.course])
+
+    return response
+
+
+@login_required
+def export_courses_csv(request):
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = 'attachment; filename="courses.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(["Course Title", "Description", "Duration"])
+
+    for course in Course.objects.all():
+        writer.writerow([course.course_title, course.description, course.duration])
+
+    return response
