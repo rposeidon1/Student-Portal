@@ -3,22 +3,38 @@
 {% block title %}Courses{% endblock %}
 
 {% block content %}
-<h2>Courses</h2>
+<div class="flex items-center justify-between mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Courses</h1>
+    <a href="{% url 'course_add' %}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition">+ Add Course</a>
+</div>
 
-<table>
-    <tr>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Duration</th>
-    </tr>
-    {% for course in courses %}
-    <tr>
-        <td>{{ course.course_title }}</td>
-        <td>{{ course.description }}</td>
-        <td>{{ course.duration }}
-    </tr>
-    {% empty %}
-    <tr><td> colspan="3">No courses yet.</td></tr>
-    {% endfor %}
-</table>
+<div class="bg-white rounded-xl shadow overflow-hidden">
+    <table class="w-full text-sm text-left">
+        <thead class="bg-indigo-50 text-indigo-700 uppercase text-xs tracking-wider">
+            <tr>
+                <th class="px-6 py-3">Title</th>
+                <th class="px-6 py-3">Description</th>
+                <th class="px-6 py-3">Duration</th>
+                <th class="px-6 py-3">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+            {% for course in courses %}
+            <tr class="hover:bg-gray-50 transition">
+                <td class="px-6 py-3 font-medium text-gray-800">{{ course.course_title }}</td>
+                <td class="px-6 py-3 text-gray-600">{{ course.description }}</td>
+                <td class="px-6 py-3 text-gray-600">{{ course.duration }}</td>
+                <td class="px-6 py-3 flex gap-2">
+                    <a href="{% url 'course_edit' course.id %}" class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded text-xs font-medium hover:bg-indigo-200 transition">Edit</a>
+                    <a href="{% url 'course_delete' course.id %}" class="bg-red-100 text-red-600 px-3 py-1 rounded text-xs font-medium hover:bg-red-200 transition">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="px-6 py-4 text-center text-gray-400 text-sm">No courses yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

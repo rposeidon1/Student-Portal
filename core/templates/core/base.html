@@ -1,3 +1,4 @@
+{% load tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,13 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Student Portal{% endblock %}</title>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    {% tailwind_css %}
 </head>
-<body>
-    <nav>
-        <p>Student Portal</p>
+<body class="bg-gray-100 min-h-screen font-sans">
+
+    <nav class="bg-indigo-700 text-white px-6 py-4 shadow-md">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <a href="{% url 'dashboard' %}" class="text-xl font-bold tracking-wide">🎓 Student Portal</a>
+            <div class="flex gap-6 text-sm font-medium">
+                <a href="{% url 'students_list' %}" class="hover:text-indigo-200 transition">Students</a>
+                <a href="{% url 'courses_list' %}" class="hover:text-indigo-200 transition">Courses</a>
+                <form method="post" action="{% url "logout" %}">
+                    {% csrf_token %}
+                    <button type="submit" class="hover:text-indigo-200 transition text-sm font-medium bg-transparent bordder-none cursor-pointer text-white">Logout</button>
+                </form>
+            </div>
+        </div>
     </nav>
-    <main>
+
+    <main class="max-w-6xl mx-auto px-6 py-8">
         {% block content %}{% endblock %}
     </main>
+
 </body>
 </html>

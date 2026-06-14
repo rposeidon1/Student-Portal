@@ -1,34 +1,43 @@
 {% extends "core/base.html" %}
 
-{% block title%}Student Form{% endblock %}
+{% block title %}Student Form{% endblock %}
 
 {% block content %}
-<h2>Student Form</h2>
-<div>
-    <form method="POST">
-        {% csrf_token %}
+<div class="max-w-xl mx-auto">
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">{{ form.instance.pk|yesno:"Edit Student,Add Student" }}</h1>
+        <p class="text-gray-500 mt-1">Fill in the details below.</p>
+    </div>
 
-        <div>
-            {{ form.name.label_tag }}
-            {{ form.name }}
-        </div>
+    <div class="bg-white rounded-xl shadow p-6">
+        <form method="POST">
+            {% csrf_token %}
 
-        <div>
-            {{ form.email.label_tag }}
-            {{ form.email }}
-        </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                {{ form.name }}
+            </div>
 
-        <div>
-            {{ form.phone.label_tag }}
-            {{ form.phone }}
-        </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                {{ form.email }}
+            </div>
 
-        <div>
-            {{ form.course.label_tag }}
-            {{ form.course }}
-        </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                {{ form.phone }}
+            </div>
 
-        <button type="submit">Add Student</button>
-    </form>
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Course</label>
+                {{ form.course }}
+            </div>
+
+            <div class="flex gap-3">
+                <button type="submit" class="bg-indigo-600 text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition">Save</button>
+                <a href="{% url 'students_list' %}" class="bg-gray-100 text-gray-700 px-5 py-2 rounded-lg text-sm font-medium hover:bg-gray-200 transition">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
-{% endblock %} 
+{% endblock %}

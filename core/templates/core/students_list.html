@@ -3,23 +3,34 @@
 {% block title %}Students{% endblock %}
 
 {% block content %}
-<h2>Students</h2>
+<div class="flex items-center justify-between mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Students</h1>
+    <a href="{% url 'student_add' %}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition">+ Add Student</a>
+</div>
 
-<input type="text" name="q" placeholder="Search students..."
-    hx-get="{% url "student_search" %}"
-    hx-trigger="keyup changed delay:300ms"
-    hx-target="#student-rows"
-    hx-swap="innerHTML">
+<div class="mb-4">
+    <input type="text" name="q" placeholder="Search students..."
+        hx-get="{% url 'student_search' %}"
+        hx-trigger="keyup changed delay:300ms"
+        hx-target="#student-rows"
+        hx-swap="innerHTML"
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400">
+</div>
 
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Course</th>
-    </tr>
-    <tbody id="student-rows">
-        {% include "core/partials/student_results.html" %}
-    </tbody>
-</table>
+<div class="bg-white rounded-xl shadow overflow-hidden">
+    <table class="w-full text-sm text-left">
+        <thead class="bg-indigo-50 text-indigo-700 uppercase text-xs tracking-wider">
+            <tr>
+                <th class="px-6 py-3">Name</th>
+                <th class="px-6 py-3">Email</th>
+                <th class="px-6 py-3">Phone</th>
+                <th class="px-6 py-3">Course</th>
+                <th class="px-6 py-3">Actions</th>
+            </tr>
+        </thead>
+        <tbody id="student-rows" class="divide-y divide-gray-100">
+            {% include "core/partials/student_results.html" %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
