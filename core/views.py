@@ -1,8 +1,12 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import StudentForm, CourseForm
 from django.db.models import Q
 from .models import Course, Student
+
+
+def admin_required(user):
+    return user.is_superuser or user.groups.filter(name="Admin").exists()
 
 
 @login_required
@@ -22,6 +26,7 @@ def students_list(request):
 
 
 @login_required
+@user_passes_test(admin_required)
 def student_add(request):
     if request.method == "POST":
         form = StudentForm(request.POST)
@@ -34,6 +39,7 @@ def student_add(request):
 
 
 @login_required
+@user_passes_test(admin_required)
 def student_edit(request, student_id):
     student = get_object_or_404(Student, id=student_id)
     if request.method == "POST":
@@ -47,6 +53,7 @@ def student_edit(request, student_id):
 
 
 @login_required
+@user_passes_test(admin_required)
 def student_delete(request, student_id):
     student = get_object_or_404(Student, id=student_id)
     if request.method == "POST":
@@ -66,6 +73,7 @@ def courses_list(request):
 
 
 @login_required
+@user_passes_test(admin_required)
 def course_add(request):
     if request.method == "POST":
         form = CourseForm(request.POST)
@@ -78,6 +86,7 @@ def course_add(request):
 
 
 @login_required
+@user_passes_test(admin_required)
 def course_edit(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     if request.method == "POST":
@@ -91,6 +100,7 @@ def course_edit(request, course_id):
 
 
 @login_required
+@user_passes_test(admin_required)
 def course_delete(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     if request.method == "POST":
@@ -106,3 +116,5 @@ def student_search(request):
         Q(name__icontains=query) | Q(email__icontains=query) | Q(course__course_title__icontains=query)
     )
     return render(request, "core/partials/student_results.html", {"students": students})
+
+
