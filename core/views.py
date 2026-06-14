@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.shortcuts import render, redirect, get_object_or_404
-from .forms import StudentForm, CourseForm
+from django.core.paginator import Paginator
 from django.db.models import Q
+from django.shortcuts import get_object_or_404, redirect, render
+
+from .forms import CourseForm, StudentForm
 from .models import Course, Student
 
 
@@ -21,8 +23,11 @@ def dashboard(request):
 
 @login_required
 def students_list(request):
-    students = Student.objects.all()
-    return render(request, "core/students_list.html", {"students": students})
+    all_students = Student.objects.all()
+    paginator = Paginator(all_students, 5)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "core/students_list.html", {"students": page_obj})
 
 
 @login_required
@@ -59,17 +64,16 @@ def student_delete(request, student_id):
     if request.method == "POST":
         student.delete()
         return redirect("students_list")
-    return render(request, "core/student_confirm_delete.html", {"student":student})
-
-
-
-
+    return render(request, "core/student_confirm_delete.html", {"student": student})
 
 
 @login_required
 def courses_list(request):
-    course = Course.objects.all()
-    return render(request, "core/courses_list.html", {"courses": course})
+    all_courses = Course.objects.all()
+    paginator = Paginator(all_courses, 5)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "core/courses_list.html", {"courses": page_obj})
 
 
 @login_required
@@ -106,15 +110,15 @@ def course_delete(request, course_id):
     if request.method == "POST":
         course.delete()
         return redirect("courses_list")
-    return render(request, "core/course_confirm_delete.html", {"course":course})
+    return render(request, "core/course_confirm_delete.html", {"course": course})
 
 
 @login_required
 def student_search(request):
     query = request.GET.get("q", "").strip()
     students = Student.objects.filter(
-        Q(name__icontains=query) | Q(email__icontains=query) | Q(course__course_title__icontains=query)
+        Q(name__icontains=query)
+        | Q(email__icontains=query)
+        | Q(course__course_title__icontains=query)
     )
     return render(request, "core/partials/student_results.html", {"students": students})
-
-

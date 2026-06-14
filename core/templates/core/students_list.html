@@ -33,4 +33,20 @@
         </tbody>
     </table>
 </div>
+
+{% if students.has_other_pages %}
+<div class="flex justify-center gap-2 mt-6">
+    {% if students.has_previous %}
+    <a href="?page={{ students.previous_page_number }}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition">← Previous</a>
+    {% endif %}
+
+    <span class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm">
+        Page {{ students.number }} of {{ students.paginator.num_pages }}
+    </span>
+
+    {% if students.has_next %}
+    <a href="?page={{ students.next_page_number }}" class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition">Next →</a>
+    {% endif %}
+</div>
+{% endif %}
 {% endblock %}
